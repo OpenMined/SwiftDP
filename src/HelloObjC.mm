@@ -6,8 +6,6 @@
 //  Copyright © 2020 openmined.org. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #import "HelloObjC.h"
 #import "lib/HelloWorld.h"
 
