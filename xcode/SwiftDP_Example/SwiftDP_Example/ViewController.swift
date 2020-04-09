@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import Hello
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        let a = HelloObjC()
+        print(a.hello(": Called from Swift") ?? "")
+        
     }
 
 
