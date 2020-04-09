@@ -32,5 +32,9 @@ ios_static_framework(
   families = ["iphone", "ipad"],
   minimum_os_version = "13.0",
   version = ":framework-version",
+  umbrella_header = "Hello.h",
+  hdrs = [
+        "HelloObjC.h"
+    ],
   deps = [":HelloObjC"]
 )
