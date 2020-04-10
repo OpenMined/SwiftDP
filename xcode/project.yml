@@ -11,6 +11,7 @@ targets:
       base:
         INFOPLIST_FILE: src/Info.plist
         OTHER_LDFLAGS: -lc++
+        MARKETING_VERSION: 1
     dependencies:
       - framework: ../bazel-bin/src/Hello_archive-root/Hello.framework
         embed: false
