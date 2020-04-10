@@ -4,8 +4,8 @@ Swift wrapper for Google's Differential Privacy Project.
 
 ## TODO
 
-- [ ] Bazel Build
-- [ ] Tulsi
+- [x] Bazel Build
+- [x] C++ -> Objective-C -> Swift
 - [ ] DP Framework
 - [ ] Carrot Hello World
 - [ ] CI Builds
@@ -18,7 +18,25 @@ Swift wrapper for Google's Differential Privacy Project.
 
 ## Prerequisites
 
-## Setup
+- Xcode
+- Brew
+
+```
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+- Bazel
+
+```
+$ brew tap bazelbuild/tap
+$ brew install bazelbuild/tap/bazel
+```
+
+- XcodeGen
+
+```
+$ brew install xcodegen
+```
 
 # Packaging Overview
 
@@ -30,10 +48,31 @@ $ bazel build //src:Hello --ios_multi_cpus=x86_64,arm64 --apple_bitcode=embedded
 
 # Build Example App
 
+```
+$ cd xcode
+$ xcodegen generate
+```
+
+Open SwiftDP-Test-Framework.xcodeproj and add your Team Signing Identity and hit run.
+
 ## Useful Commands
 
-otool -hv -arch all
-lipo -info libHelloObjC.a
+### Bazel Clean
 
-bazel clean --expunge
-nm Hello
+```
+$ bazel clean --expunge
+```
+
+### Inspect iOS Library Files
+
+```
+$ otool -hv -arch all $FILENAME
+```
+
+```
+lipo -info $FILENAME
+```
+
+```
+nm $FILENAME
+```

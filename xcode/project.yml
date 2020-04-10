@@ -1,0 +1,16 @@
+name: SwiftDP-Test-Framework
+options:
+  bundleIdPrefix: org.openmined.SwiftDP-Test-Framework
+targets:
+  SwiftDP-Test-Framework:
+    type: application
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources: [src]
+    settings:
+      base:
+        INFOPLIST_FILE: src/Info.plist
+        OTHER_LDFLAGS: -lc++
+    dependencies:
+      - framework: ../bazel-bin/src/Hello_archive-root/Hello.framework
+        embed: false

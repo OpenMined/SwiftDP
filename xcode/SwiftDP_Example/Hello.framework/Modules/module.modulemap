@@ -1,5 +1,0 @@
-framework module Hello {
-  umbrella header "Hello.h"
-  export *
-  module * { export * }
-}
