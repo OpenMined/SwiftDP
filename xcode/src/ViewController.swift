@@ -7,16 +7,18 @@
 //
 
 import UIKit
-import Hello
+import SwiftDP
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let a = SwiftDP_rand().uniformDouble()
+        let b = SwiftDP_rand().geometric()
         
-        let a = HelloObjC()
-        print(a.hello(": Called from Swift") ?? "")
+        print(a)
+        print(b)
         
     }
 

@@ -13,5 +13,5 @@ targets:
         OTHER_LDFLAGS: -lc++
         MARKETING_VERSION: 1
     dependencies:
-      - framework: ../bazel-bin/src/Hello_archive-root/Hello.framework
+      - framework: ../bazel-bin/src/SwiftDP_archive-root/SwiftDP.framework
         embed: false
