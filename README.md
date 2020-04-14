@@ -43,7 +43,7 @@ $ brew install xcodegen
 # Build Framework
 
 ```
-$ bazel build //src:Hello --ios_multi_cpus=x86_64,arm64 --apple_bitcode=embedded --copt=-fembed-bitcode
+$ bazel build //src:SwiftDP --ios_multi_cpus=x86_64,arm64 --apple_bitcode=embedded --copt=-fembed-bitcode
 ```
 
 # Build Example App
@@ -65,14 +65,16 @@ $ bazel clean --expunge
 
 ### Inspect iOS Library Files
 
+Show which architectures are available:
+
+```
+$ lipo -info ./bazel-bin/src/SwiftDP_archive-root/SwiftDP.framework/SwiftDP
+```
+
 ```
 $ otool -hv -arch all $FILENAME
 ```
 
 ```
-lipo -info $FILENAME
-```
-
-```
-nm $FILENAME
+$ nm $FILENAME
 ```
