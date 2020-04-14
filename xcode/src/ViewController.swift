@@ -16,12 +16,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         let a = SwiftDP_rand().uniformDouble()
         let b = SwiftDP_rand().geometric()
-        
+
         print(a)
         print(b)
-        
+
     }
 
-
 }
-
