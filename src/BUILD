@@ -6,13 +6,16 @@ load("@build_bazel_rules_apple//apple:versioning.bzl", "apple_bundle_version")
 objc_library(
     name = "dp",
     deps = [
-        "@google_differential_privacy//differential_privacy/algorithms:rand"
+        "@google_differential_privacy//differential_privacy/algorithms:rand",
+        "@google_differential_privacy//differential_privacy/base:status"
     ],
     srcs = [
-        "SwiftDP_rand.mm"
+        "SwiftDP_rand.mm",
+        "SwiftDP_status.mm"
     ],
     hdrs = [
-        "SwiftDP_rand.h"
+        "SwiftDP_rand.h",
+        "SwiftDP_status.h"
     ],
     enable_modules = True,
 )
@@ -36,7 +39,8 @@ ios_static_framework(
   version = ":framework-version",
   umbrella_header = "SwiftDP.h",
   hdrs = [
-        "SwiftDP_rand.h"
+        "SwiftDP_rand.h",
+        "SwiftDP_status.h"
     ],
   deps = [":dp"]
 )
