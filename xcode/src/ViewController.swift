@@ -16,8 +16,6 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         let a = SwiftDP_rand().uniformDouble()
         let b = SwiftDP_rand().geometric()
-        let d = SwiftDP_status()
-        d.test()
 
         print(a)
         print(b)
@@ -25,8 +23,14 @@ class ViewController: UIViewController {
         let sandbox = Sandbox()
         sandbox.test()
 
-        let c: DPStatus = .statuskOk
-        print("DPStatus \(c.rawValue)")
+        let status = DPStatus.statuskUnknown // 2
+        let message = "Test Status"
+        let e = SwiftDP_status(status: status, andMessage: message)
+        if let e = e {
+            print("\nGot the status back: \(e.code())") // 2 statuskUnknown
+            print("\nGot the status back: \(e.message())")
+            print("\nGot the status back: \(e.toString())")
+        }
 
     }
 

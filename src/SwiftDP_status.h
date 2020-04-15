@@ -22,5 +22,9 @@ typedef NS_ENUM(NSUInteger, DPStatus) {
   DPStatuskDoNotUseReservedForFutureExpansionUseDefaultInSwitchInstead_ = 20
 };
 
-- (void)test;
+- (NSString *)toString;
+- (NSString *)message;
+- (int)code;
+- (instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *)message;
+
 @end
