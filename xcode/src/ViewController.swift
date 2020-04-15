@@ -20,6 +20,18 @@ class ViewController: UIViewController {
         print(a)
         print(b)
 
+        let sandbox = Sandbox()
+        sandbox.test()
+
+        let status = DPStatus.statuskUnknown // 2
+        let message = "Test Status"
+        let e = SwiftDP_status(status: status, andMessage: message)
+        if let e = e {
+            print("\nGot the status back: \(e.code())") // 2 statuskUnknown
+            print("\nGot the status back: \(e.message())")
+            print("\nGot the status back: \(e.toString())")
+        }
+
     }
 
 }

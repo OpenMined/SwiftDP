@@ -12,6 +12,7 @@ targets:
         INFOPLIST_FILE: src/Info.plist
         OTHER_LDFLAGS: -lc++
         MARKETING_VERSION: 1
+        SWIFT_OBJC_BRIDGING_HEADER: src/SwiftDP-Test-Framework-Bridging-Header.h
     dependencies:
       - framework: ../bazel-bin/src/SwiftDP_archive-root/SwiftDP.framework
         embed: false
