@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
-@interface SwiftDP_rand: NSObject
+@interface SwiftDP_rand : NSObject
 
-- (double) UniformDouble;
-- (UInt64) Geometric;
+- (double)UniformDouble;
+- (UInt64)Geometric;
 @end

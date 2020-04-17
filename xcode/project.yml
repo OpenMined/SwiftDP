@@ -11,6 +11,8 @@ targets:
     deploymentTarget: "13.0"
     sources: [app]
     preBuildScripts:
+      - path: ../clang_format.sh
+        name: clang-format
       - script: |
           exec "${PROJECT_DIR}/../build_framework.sh"
         name: Bazel Build Framework

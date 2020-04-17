@@ -1,4 +1,4 @@
-# SwiftDP
+#SwiftDP
 
 Swift wrapper for Google's Differential Privacy Project.
 
@@ -38,15 +38,25 @@ $ brew install bazelbuild/tap/bazel
 $ brew install xcodegen
 ```
 
+- clang-format
+
+```
+$ brew install clang-format
+```
+
 # Packaging Overview
 
 # Build Framework
 
 ```
-$ bazel build //src:SwiftDP --ios_multi_cpus=x86_64,arm64 --apple_bitcode=embedded --copt=-fembed-bitcode
+$ ./build_framework.sh
 ```
 
-# Build Example App
+# Xcode Development
+
+All development can be done inside of xcode. We have the Objective-C source code linked a dummy framework to allow for "Jump to Definition" as well as the google absl and dp libraries linked but with no target membership to make it easy to navigate the source.
+
+## Build Example App
 
 ```
 $ cd xcode
