@@ -6,6 +6,8 @@ Swift wrapper for Google's Differential Privacy Project.
 
 - [x] Bazel Build
 - [x] C++ -> Objective-C -> Swift
+- [x] Development Xcode Project
+- [x] clang-format
 - [ ] DP Framework
 - [ ] Carrot Hello World
 - [ ] CI Builds
@@ -44,15 +46,24 @@ $ brew install xcodegen
 $ brew install clang-format
 ```
 
+# Setup
+
+There is a start script which will fetch the bazel dependencies build the framework and
+create an xcode project for use in development.
+
+```
+$ ./start.sh
+```
+
 # Packaging Overview
 
-# Build Framework
+## Build Framework
 
 ```
 $ ./build_framework.sh
 ```
 
-# Xcode Development
+## Xcode Development
 
 All development can be done inside of xcode. We have the Objective-C source code linked a dummy framework to allow for "Jump to Definition" as well as the google absl and dp libraries linked but with no target membership to make it easy to navigate the source.
 
