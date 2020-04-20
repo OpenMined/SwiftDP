@@ -1,18 +1,40 @@
 name: SwiftDP-Test-Framework
 options:
   bundleIdPrefix: org.openmined.SwiftDP-Test-Framework
+fileGroups:
+  - "../bazel-SwiftDP/external/com_google_absl"
+  - "../bazel-SwiftDP/external/google_differential_privacy"
 targets:
   SwiftDP-Test-Framework:
     type: application
     platform: iOS
     deploymentTarget: "13.0"
-    sources: [src]
+    sources: [app]
+    preBuildScripts:
+      - path: ../clang_format.sh
+        name: clang-format
+      - script: |
+          exec "${PROJECT_DIR}/../build_framework.sh"
+        name: Bazel Build Framework
     settings:
       base:
-        INFOPLIST_FILE: src/Info.plist
+        INFOPLIST_FILE: app/Info.plist
         OTHER_LDFLAGS: -lc++
         MARKETING_VERSION: 1
-        SWIFT_OBJC_BRIDGING_HEADER: src/SwiftDP-Test-Framework-Bridging-Header.h
+        SWIFT_OBJC_BRIDGING_HEADER: app/SwiftDP-Test-Framework-Bridging-Header.h
     dependencies:
       - framework: ../bazel-bin/src/SwiftDP_archive-root/SwiftDP.framework
         embed: false
+  Dummy:
+    type: framework
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources: ["../src"]
+    settings:
+      USER_HEADER_SEARCH_PATHS: "$PROJECT_DIR/../bazel-SwiftDP/external/**"
+
+schemes:
+  SwiftDP-Test-Framework:
+    build:
+      targets:
+        "SwiftDP-Test-Framework": SwiftDP-Test-Framework
