@@ -7,15 +7,23 @@ objc_library(
     name = "dp",
     deps = [
         "@google_differential_privacy//differential_privacy/algorithms:rand",
-        "@google_differential_privacy//differential_privacy/base:status"
+        "@google_differential_privacy//differential_privacy/base:status",
+        "@google_differential_privacy//differential_privacy/base:statusor",
+        #"@google_differential_privacy//differential_privacy/algorithms:bounded-sum",
+        #"@google_differential_privacy//differential_privacy/proto:data_cc_proto"
+        #"@google_differential_privacy//differential_privacy/example:animals_and_carrots"
     ],
     srcs = [
+        "DPUtil.mm",
         "SwiftDP_rand.mm",
-        "SwiftDP_status.mm"
+        "SwiftDP_status.mm",
+        "SwiftDP_CarrotReporter.mm"
     ],
     hdrs = [
+        "DPUtil.mm", # needed to import into other .mm files
         "SwiftDP_rand.h",
-        "SwiftDP_status.h"
+        "SwiftDP_status.h",
+        "SwiftDP_CarrotReporter.h"
     ],
     enable_modules = True,
 )
@@ -40,7 +48,8 @@ ios_static_framework(
   umbrella_header = "SwiftDP.h",
   hdrs = [
         "SwiftDP_rand.h",
-        "SwiftDP_status.h"
+        "SwiftDP_status.h",
+        "SwiftDP_CarrotReporter.h"
     ],
   deps = [":dp"]
 )

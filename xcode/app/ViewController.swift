@@ -32,6 +32,18 @@ class ViewController: UIViewController {
             print("\nGot the status back: \(e.toString())")
         }
 
+
+        let carrots = SwiftDP_CarrotReporter(epsilon: 1)
+        print(carrots.getCarrotsData())
+        //let dict: Dictionary<String, Int> = ["setting":1, "new dict":2]
+        //carrots.setCarrotsData(dict)
+        //print(carrots.getCarrotsData())
+
+        print(carrots.sum())
+        print(carrots.mean())
+        print(carrots.count(above: 1))
+        print(carrots.max())
+        print(carrots.privacyBudget())
     }
 
 }
