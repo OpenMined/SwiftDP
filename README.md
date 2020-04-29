@@ -1,6 +1,6 @@
-#SwiftDP
+# SwiftDP
 
-Swift wrapper for Google's Differential Privacy Project.
+Swift wrapper for Google's Differential Privacy Project via an Objective-C++ bridge.
 
 ## TODO
 
@@ -8,8 +8,8 @@ Swift wrapper for Google's Differential Privacy Project.
 - [x] C++ -> Objective-C -> Swift
 - [x] Development Xcode Project
 - [x] clang-format
-- [ ] DP Framework
 - [ ] Carrot Hello World
+- [ ] DP Framework
 - [ ] CI Builds
 - [ ] SwiftPM Support
 - [ ] Cocopods Support
@@ -100,6 +100,16 @@ $ otool -hv -arch all $FILENAME
 $ nm $FILENAME
 ```
 
+# Namespaces
+
+## Objective-C
+
+We are using the namespace OCDP in the Objective-C code.
+
+## Swift
+
+We plan to use NS_SWIFT_UNAVAILABLE and NS_SWIFT_NAME to selectively expose and rename the Objective-C API to Swift.
+
 # How to Objective-C++
 
 ## Utility Library
@@ -131,8 +141,42 @@ Hide unused init / new:
 + (instancetype)new NS_UNAVAILABLE; // disable default new aka [[NSObject alloc] init]
 ```
 
+## Toolbox
+
+### C++
+
+- Templates
+- C++ auto in range-based for-loops
+
+### Objective-C
+
+- Categories
+- Objective-C++ .mm files
+- `__kindof`
+- isMemberOfClass
+- isKindOfClass
+- Protocols
+- Light-weight Generics
+- NS_UNAVAILABLE
+
+### Swift
+
+- NS_SWIFT_NAME
+- NS_SWIFT_UNAVAILABLE
+
 ## Resources
+
+These links have really useful patterns and ideas on ways to mix C++ and Objective-C in novel ways.
 
 https://philjordan.eu/article/strategies-for-using-c++-in-objective-c-projects  
 https://philjordan.eu/article/mixing-objective-c-c++-and-objective-c++  
 https://useyourloaf.com/blog/using-nullable-to-annotate-objective-c/
+https://useyourloaf.com/blog/using-objective-c-lightweight-generics/
+https://developer.apple.com/documentation/swift/objective-c_and_c_code_customization
+http://mirror.informatimago.com/next/developer.apple.com/releasenotes/Cocoa/Objective-C++.html
+https://gist.github.com/dodikk/4a0f1d98faa7c1336551
+https://medium.com/@husain.amri/objective-c-deliver-us-from-swift-3a44d3ac00e7
+https://medium.com/@husain.amri/creating-objective-c-classes-at-runtime-1f02b3a3a1db
+https://academy.realm.io/posts/altconf-peter-steinberger-objective-c++-what-could-possibly-go-wrong/
+https://github.com/EmbeddedSources/JFFLibrary/tree/master/lib/JFFUtils
+https://www.netguru.com/codestories/objective-c-generics

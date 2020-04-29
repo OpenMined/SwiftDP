@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 
-@interface SwiftDP_status : NSObject
 typedef NS_ENUM(NSUInteger, DPStatus) {
   DPStatuskOk = 0,
   DPStatuskCancelled = 1,
@@ -19,12 +18,14 @@ typedef NS_ENUM(NSUInteger, DPStatus) {
   DPStatuskUnavailable = 14,
   DPStatuskDataLoss = 15,
   DPStatuskUnauthenticated = 17,
-  DPStatuskDoNotUseReservedForFutureExpansionUseDefaultInSwitchInstead_ = 20
+  DPStatuskDoNotUseReservedForFutureExpansionUseDefaultInSwitchInstead_ = 20,
+  DPStatuskSWIFTDPEnumMatchNotFound = 255
 };
 
+@interface OCDPStatus : NSObject
 - (NSString *)toString;
 - (NSString *)message;
-- (int)code;
+- (DPStatus)code;
 - (instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *)message;
 
 @end
