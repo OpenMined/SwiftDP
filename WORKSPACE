@@ -5,28 +5,31 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 git_repository(
     name = "build_bazel_rules_apple",
-    remote = "https://github.com/bazelbuild/rules_apple.git",
     commit = "5131f3d46794bf227d296c82f30c2499c9de3c5b",
+    remote = "https://github.com/bazelbuild/rules_apple.git",
 )
 
 git_repository(
     name = "google_differential_privacy",
     commit = "14f26fb91570cce384c2715d3adcaa4e92eec605",
-    remote = "https://github.com/google/differential-privacy"
-)  
+    remote = "https://github.com/google/differential-privacy",
+)
 
-# needed for protobuf
 http_archive(
-    name = "zlib",
-    build_file = "//third_party:zlib.BUILD",
-    sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
-    strip_prefix = "zlib-1.2.11",
+    name = "rules_proto",
+    sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
+    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
     urls = [
-        "http://mirror.bazel.build/zlib.net/fossils/zlib-1.2.11.tar.gz",
-        "http://zlib.net/fossils/zlib-1.2.11.tar.gz",  # 2017-01-15
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+        "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
     ],
 )
 
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
 
 load(
     "@build_bazel_rules_apple//apple:repositories.bzl",
@@ -38,4 +41,3 @@ apple_rules_dependencies()
 load("@google_differential_privacy//:differential_privacy_deps.bzl", "differential_privacy_deps")
 
 differential_privacy_deps()
-
