@@ -23,19 +23,31 @@ objc_library(
         "DPUtil.mm",
         "OCDPCarrotReporter.mm",
         "OCDPStatus.mm",
+        "OCDPStatus+CPP.mm",
+        "OCDPStatusOr.mm",
+        "OCDPStatusOr+CPP.mm",
     ],
     hdrs = [
         "DPUtil.mm",  # needed to import into other .mm files
+        "OCDPStatus.mm",
+        "OCDPStatus+CPP.mm",
+        "OCDPStatusOr.mm",
+        "OCDPStatusOr+CPP.mm",
         "OCDPCarrotReporter.h",
         "OCDPStatus.h",
+        "OCDPStatusOr.h",
     ],
     enable_modules = True,
     deps = [
         ":my-proto-cc",
         "@google_differential_privacy//differential_privacy/algorithms:bounded-sum",
+        "@google_differential_privacy//differential_privacy/algorithms:bounded-mean",
+        "@google_differential_privacy//differential_privacy/algorithms:count",
+        "@google_differential_privacy//differential_privacy/algorithms:order-statistics",
         "@google_differential_privacy//differential_privacy/algorithms:rand",
         "@google_differential_privacy//differential_privacy/base:status",
         "@google_differential_privacy//differential_privacy/base:statusor",
+        "@google_differential_privacy//differential_privacy/base:canonical_errors"
     ],
 )
 
@@ -54,6 +66,7 @@ ios_static_framework(
     hdrs = [
         "OCDPCarrotReporter.h",
         "OCDPStatus.h",
+        "OCDPStatusOr.h",
     ],
     bundle_name = "SwiftDP",
     families = [
