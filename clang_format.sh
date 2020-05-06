@@ -1,4 +1,5 @@
-if [ -z "$var" ];
+#!/bin/bash
+if [ -z "$PROJECT_DIR" ];
 then
     PROJECT_DIR=`pwd`/xcode
 fi

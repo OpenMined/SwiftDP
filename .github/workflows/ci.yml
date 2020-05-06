@@ -1,0 +1,103 @@
+name: CI
+on:
+  push: {}
+  pull_request: {}
+jobs:
+  setup:
+    runs-on: macOS-latest
+    name: select xcode ${{ matrix.xcode }}
+    strategy:
+      matrix:
+        xcode: ["11.4"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set Xcode
+        run: |
+          echo "Available Xcode versions:"
+          ls /Applications | grep Xcode
+          echo "Choosing Xcode_${{ matrix.xcode }}.app"
+          sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
+          xcodebuild -version
+          swift --version
+          swift package --version
+
+  framework:
+    name: build bazel framework
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Build
+        run: |
+          curl -LO https://github.com/bazelbuild/bazel/releases/download/3.0.0/bazel-3.0.0-darwin-x86_64
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazel-3.0.0-darwin-x86_64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+          ${GITHUB_WORKSPACE}/bin/bazel --version
+          export PATH=${GITHUB_WORKSPACE}/bin/:$PATH
+          which bazel
+          bazel --version
+          set -o pipefail
+          source ./build_framework.sh
+
+  build:
+    name: build iOS app
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Homebrew Dependencies
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+          brew install clang-format xcodegen
+      - name: Install Fastlane
+        run: |
+          gem install bundler
+          cd xcode
+          bundle install
+      - name: Run Build
+        run: |
+          curl -LO https://github.com/bazelbuild/bazel/releases/download/3.0.0/bazel-3.0.0-darwin-x86_64
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazel-3.0.0-darwin-x86_64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+          ${GITHUB_WORKSPACE}/bin/bazel --version
+          export PATH=${GITHUB_WORKSPACE}/bin/:$PATH
+          which bazel
+          bazel --version
+          set -o pipefail
+          source ./build_framework.sh
+          cd xcode
+          xcodegen generate
+          bundle exec fastlane build
+  test:
+    name: run iOS tests
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Fetch all branches
+        run: |
+          git fetch --prune --unshallow
+      - name: Install Homebrew Dependencies
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+          brew install clang-format xcodegen
+      - name: Install fastlane
+        run: |
+          gem install bundler
+          cd xcode
+          bundle install
+      - name: Run Tests
+        run: |
+          curl -LO https://github.com/bazelbuild/bazel/releases/download/3.0.0/bazel-3.0.0-darwin-x86_64
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazel-3.0.0-darwin-x86_64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+          ${GITHUB_WORKSPACE}/bin/bazel --version
+          export PATH=${GITHUB_WORKSPACE}/bin/:$PATH
+          which bazel
+          bazel --version
+          set -o pipefail
+          source ./build_framework.sh
+          cd xcode
+          xcodegen generate
+          bundle exec fastlane tests
