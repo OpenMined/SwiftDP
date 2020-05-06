@@ -74,7 +74,7 @@ $ cd xcode
 $ xcodegen generate
 ```
 
-Open SwiftDP-Test-Framework.xcodeproj and add your Team Signing Identity and hit run.
+Open SwiftDP-App.xcodeproj and add your Team Signing Identity and hit run.
 
 ## Useful Commands
 
