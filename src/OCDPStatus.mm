@@ -7,11 +7,25 @@ using namespace differential_privacy;
 @interface OCDPStatus () {
   base::Status *cpp_Status;
 }
+- (nullable instancetype) initWithCppStatus: (base::Status) status;
 @end
 
 @implementation OCDPStatus
 
-- (instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *)message {
+- (nullable instancetype) initWithCppStatus: (base::Status) status {
+    self = [super init];
+    if (self) {
+      // Start PIMPL
+      cpp_Status = new base::Status(status);
+      if (!cpp_Status) {
+        self = nil; // destroy Wrapper
+      }
+      // End PIMPL
+    }
+    return self;
+}
+
+- (nullable instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *)message {
   self = [super init];
   if (self) {
     // Start PIMPL
@@ -25,7 +39,7 @@ using namespace differential_privacy;
   return self;
 }
 
-- (NSString *)toString {
+- (nonnull NSString *)toString {
   return [NSString fromCppStringView:cpp_Status->ToString()];
 }
 
@@ -33,7 +47,7 @@ using namespace differential_privacy;
   return [OCDPStatus dpStatusFromCode:cpp_Status->code()];
 }
 
-- (NSString *)message {
+- (nonnull NSString *)message {
   return [NSString fromCppStringView:cpp_Status->message()];
 }
 

@@ -33,9 +33,9 @@
 // they should answer any more of Farmer Fred's questions.
 - (double)PrivacyBudget;
 
-- (OCDPStatusOr *)PrivateSum:(double)privacy_budget;
-- (OCDPStatusOr *)PrivateMean: (double)privacy_budget;
-- (OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget limit: (int) max;
-- (OCDPStatusOr *)PrivateMax:(double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateSum:(double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateMean: (double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget limit: (int) max;
+- (nonnull OCDPStatusOr *)PrivateMax:(double)privacy_budget;
 
 @end

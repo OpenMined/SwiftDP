@@ -7,11 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import "OCDPStatusOr.h"
+#import "OCDPStatus.mm"
+#import "OCDPOutput.mm"
 
 #import "differential_privacy/base/status.h"
 #include "differential_privacy/base/statusor.h"
 #include "differential_privacy/proto/data.pb.h"
 #include "differential_privacy/proto/util.h"
+
 
 using namespace differential_privacy;
 using differential_privacy::GetValue;
@@ -20,9 +23,25 @@ using differential_privacy::GetValue;
     OCDPStatus *status;
     base::StatusOr<Output> *cpp_StatusOr;
 }
+- (instancetype) initWithCppStatusOr: (base::StatusOr<Output>) statusOr;
 @end
 
 @implementation OCDPStatusOr
+
+- (instancetype) initWithCppStatusOr: (base::StatusOr<Output>) statusOr {
+    self = [super init];
+    if (self) {
+      // Start PIMPL
+      cpp_StatusOr = new base::StatusOr<Output>(statusOr);
+      base::Status cpp_Status = statusOr.status();
+      status = [[OCDPStatus alloc] initWithCppStatus:cpp_Status];
+      if (!cpp_StatusOr) {
+        self = nil; // destroy Wrapper
+      }
+      // End PIMPL
+    }
+    return self;
+}
 
 - (BOOL) ok {
     if (status != nil && status.code == DPStatuskOk) {
@@ -35,25 +54,17 @@ using differential_privacy::GetValue;
     return status;
 }
 
-//- (id) boundingReport {
-//    return nil;
-//}
-
-- (double) getDoubleValue {
+- (double) getDouble {
     Output output = cpp_StatusOr->ValueOrDie();
-
-    //BoundingReport report = output.error_report().bounding_report();
     return GetValue<double>(output);
 }
 
-- (int) getIntValue {
+- (nullable OCDPOutput *) value {
     Output output = cpp_StatusOr->ValueOrDie();
-    //BoundingReport report = mean_output.error_report().bounding_report();
-    return GetValue<int>(output);
-}
-
-- (NSNumber *) getValue {
-    return @1;
+    OCDPOutput *objcOutput = [[OCDPOutput alloc] initWithCppOutput:output];
+    return objcOutput;
 }
 
 @end
+
+

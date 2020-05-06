@@ -1,20 +1,18 @@
 //
 //  OCDPCarrotReporter.mm
-//  Dummy
+//  SwiftDP
 //
 //  Created by Madhava Jay on 20/4/20.
 //
 
+#import <Foundation/Foundation.h>
 #import "OCDPCarrotReporter.h"
 #import "DPUtil.mm"
-#import "OCDPStatus.h"
-#import "OCDPStatus+CPP.mm"
-#import "OCDPStatusOr.h"
-#import "OCDPStatusOr+CPP.mm"
-#import <Foundation/Foundation.h>
+#import "OCDPStatus.mm"
+#import "OCDPStatusOr.mm"
+
 #include <map>
 #include <string>
-
 #import "differential_privacy/algorithms/bounded-sum.h"
 #import "differential_privacy/algorithms/bounded-mean.h"
 #import "differential_privacy/algorithms/count.h"
@@ -99,7 +97,7 @@ using namespace differential_privacy;
   return self->privacy_budget_;
 }
 
-- (OCDPStatusOr *)PrivateSum:(double)privacy_budget {
+- (nonnull OCDPStatusOr *)PrivateSum:(double)privacy_budget {
   base::StatusOr<Output> result = [self _PrivateSum:privacy_budget];
   OCDPStatusOr *statusOr = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
   return statusOr;
@@ -126,7 +124,7 @@ using namespace differential_privacy;
   return sum_algorithm->PartialResult(privacy_budget);
 }
 
-- (OCDPStatusOr *)PrivateMean: (double)privacy_budget {
+- (nonnull OCDPStatusOr *)PrivateMean: (double)privacy_budget {
     base::StatusOr<Output> result = [self _PrivateMean:privacy_budget];
     OCDPStatusOr *statusOr = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
     return statusOr;
@@ -145,7 +143,7 @@ using namespace differential_privacy;
   return mean_algorithm->PartialResult(privacy_budget);
 }
 
-- (OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget limit: (int) max {
+- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget limit: (int) max {
     base::StatusOr<Output> result = [self _PrivateCountAbove:privacy_budget limit:max];
     OCDPStatusOr *status = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
     return status;
@@ -167,7 +165,7 @@ using namespace differential_privacy;
     return count_algorithm->PartialResult(privacy_budget);
 }
 
-- (OCDPStatusOr *)PrivateMax:(double)privacy_budget {
+- (nonnull OCDPStatusOr *)PrivateMax:(double)privacy_budget {
     base::StatusOr<Output> result = [self _PrivateMax:privacy_budget];
     OCDPStatusOr *status = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
     return status;

@@ -23,9 +23,9 @@ typedef NS_ENUM(NSUInteger, DPStatus) {
 };
 
 @interface OCDPStatus : NSObject
-- (NSString *)toString;
-- (NSString *)message;
+- (nonnull NSString *)toString;
+- (nonnull NSString *)message;
 - (DPStatus)code;
-- (instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *)message;
+- (nullable instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *) message;
 
 @end
