@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, DPStatus) {
 - (nonnull NSString *)toString;
 - (nonnull NSString *)message;
 - (DPStatus)code;
-- (nullable instancetype)initWithStatus:(DPStatus)code AndMessage:(NSString *) message;
+- (nullable instancetype)initWithStatus:(DPStatus)code
+                             AndMessage:(NSString *)message;
 
 @end

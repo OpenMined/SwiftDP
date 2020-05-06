@@ -15,36 +15,38 @@
 using namespace differential_privacy;
 
 @interface OCDPConfidenceInterval () {
-    ConfidenceInterval *cpp_ConfidenceInterval;
+  ConfidenceInterval *cpp_ConfidenceInterval;
 }
-- (instancetype) initWithCppConfidenceInterval: (ConfidenceInterval) confidence_interval;
+- (instancetype)initWithCppConfidenceInterval:
+    (ConfidenceInterval)confidence_interval;
 @end
 
 @implementation OCDPConfidenceInterval
 
-- (instancetype) initWithCppConfidenceInterval: (ConfidenceInterval) confidence_interval {
-    self = [super init];
-    if (self) {
-      // Start PIMPL
-      cpp_ConfidenceInterval = new ConfidenceInterval(confidence_interval);
-      if (!cpp_ConfidenceInterval) {
-        self = nil; // destroy Wrapper
-      }
-      // End PIMPL
+- (instancetype)initWithCppConfidenceInterval:
+    (ConfidenceInterval)confidence_interval {
+  self = [super init];
+  if (self) {
+    // Start PIMPL
+    cpp_ConfidenceInterval = new ConfidenceInterval(confidence_interval);
+    if (!cpp_ConfidenceInterval) {
+      self = nil; // destroy Wrapper
     }
-    return self;
+    // End PIMPL
+  }
+  return self;
 }
 
-- (double) lower_bound {
-    return cpp_ConfidenceInterval->lower_bound();
+- (double)lower_bound {
+  return cpp_ConfidenceInterval->lower_bound();
 }
 
-- (double) upper_bound {
-    return cpp_ConfidenceInterval->upper_bound();
+- (double)upper_bound {
+  return cpp_ConfidenceInterval->upper_bound();
 }
 
-- (double) confidence_level {
-    return cpp_ConfidenceInterval->confidence_level();
+- (double)confidence_level {
+  return cpp_ConfidenceInterval->confidence_level();
 }
 
 @end

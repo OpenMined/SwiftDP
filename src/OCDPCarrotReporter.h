@@ -5,8 +5,8 @@
 //  Created by Madhava Jay on 20/4/20.
 //
 
-#import <Foundation/Foundation.h>
 #import "OCDPStatusOr.h"
+#import <Foundation/Foundation.h>
 
 @interface OCDPCarrotReporter : NSObject
 - (nonnull instancetype)init;
@@ -34,8 +34,9 @@
 - (double)PrivacyBudget;
 
 - (nonnull OCDPStatusOr *)PrivateSum:(double)privacy_budget;
-- (nonnull OCDPStatusOr *)PrivateMean: (double)privacy_budget;
-- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget limit: (int) max;
+- (nonnull OCDPStatusOr *)PrivateMean:(double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget
+                                      limit:(int)max;
 - (nonnull OCDPStatusOr *)PrivateMax:(double)privacy_budget;
 
 @end

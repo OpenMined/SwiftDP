@@ -5,21 +5,21 @@
 //  Created by Madhava Jay on 20/4/20.
 //
 
-#import <Foundation/Foundation.h>
 #import "OCDPCarrotReporter.h"
 #import "DPUtil.mm"
 #import "OCDPStatus.mm"
 #import "OCDPStatusOr.mm"
+#import <Foundation/Foundation.h>
 
-#include <map>
-#include <string>
-#import "differential_privacy/algorithms/bounded-sum.h"
 #import "differential_privacy/algorithms/bounded-mean.h"
+#import "differential_privacy/algorithms/bounded-sum.h"
 #import "differential_privacy/algorithms/count.h"
 #include "differential_privacy/algorithms/order-statistics.h"
-#include "differential_privacy/base/statusor.h"
 #include "differential_privacy/base/canonical_errors.h"
+#include "differential_privacy/base/statusor.h"
 #include "differential_privacy/proto/data.pb.h"
+#include <map>
+#include <string>
 
 using namespace differential_privacy;
 
@@ -103,20 +103,19 @@ using namespace differential_privacy;
   return statusOr;
 }
 
-- (base::StatusOr<Output>) _PrivateSum:(double)privacy_budget {
+- (base::StatusOr<Output>)_PrivateSum:(double)privacy_budget {
   privacy_budget_ -= privacy_budget;
 
   if (privacy_budget_ < privacy_budget) {
     return base::InvalidArgumentError("Not enough privacy budget.");
   }
 
-  ASSIGN_OR_RETURN(
-      std::unique_ptr<BoundedSum<int>> sum_algorithm,
-      BoundedSum<int>::Builder()
-          .SetEpsilon(epsilon_)
-          .SetLower(0)
-          .SetUpper(150)
-          .Build());
+  ASSIGN_OR_RETURN(std::unique_ptr<BoundedSum<int>> sum_algorithm,
+                   BoundedSum<int>::Builder()
+                       .SetEpsilon(epsilon_)
+                       .SetLower(0)
+                       .SetUpper(150)
+                       .Build());
 
   for (const auto &pair : carrots_per_animal_) {
     sum_algorithm->AddEntry(pair.second);
@@ -124,51 +123,54 @@ using namespace differential_privacy;
   return sum_algorithm->PartialResult(privacy_budget);
 }
 
-- (nonnull OCDPStatusOr *)PrivateMean: (double)privacy_budget {
-    base::StatusOr<Output> result = [self _PrivateMean:privacy_budget];
-    OCDPStatusOr *statusOr = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
-    return statusOr;
+- (nonnull OCDPStatusOr *)PrivateMean:(double)privacy_budget {
+  base::StatusOr<Output> result = [self _PrivateMean:privacy_budget];
+  OCDPStatusOr *statusOr = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
+  return statusOr;
 }
 
-- (base::StatusOr<Output>) _PrivateMean: (double) privacy_budget {
+- (base::StatusOr<Output>)_PrivateMean:(double)privacy_budget {
   if (privacy_budget_ < privacy_budget) {
     return base::InvalidArgumentError("Not enough privacy budget.");
   }
   privacy_budget_ -= privacy_budget;
   ASSIGN_OR_RETURN(std::unique_ptr<BoundedMean<int>> mean_algorithm,
                    BoundedMean<int>::Builder().SetEpsilon(epsilon_).Build());
-  for (const auto& pair : carrots_per_animal_) {
+  for (const auto &pair : carrots_per_animal_) {
     mean_algorithm->AddEntry(pair.second);
   }
   return mean_algorithm->PartialResult(privacy_budget);
 }
 
-- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget limit: (int) max {
-    base::StatusOr<Output> result = [self _PrivateCountAbove:privacy_budget limit:max];
-    OCDPStatusOr *status = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
-    return status;
+- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget
+                                      limit:(int)max {
+  base::StatusOr<Output> result = [self _PrivateCountAbove:privacy_budget
+                                                     limit:max];
+  OCDPStatusOr *status = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
+  return status;
 }
 
-- (base::StatusOr<Output>)_PrivateCountAbove:(double)privacy_budget limit: (int) max {
-    if (privacy_budget_ < privacy_budget) {
-      return base::InvalidArgumentError("Not enough privacy budget.");
-    }
-    privacy_budget_ -= privacy_budget;
-    ASSIGN_OR_RETURN(std::unique_ptr<Count<std::string>> count_algorithm,
-                     Count<std::string>::Builder().SetEpsilon(epsilon_).Build());
+- (base::StatusOr<Output>)_PrivateCountAbove:(double)privacy_budget
+                                       limit:(int)max {
+  if (privacy_budget_ < privacy_budget) {
+    return base::InvalidArgumentError("Not enough privacy budget.");
+  }
+  privacy_budget_ -= privacy_budget;
+  ASSIGN_OR_RETURN(std::unique_ptr<Count<std::string>> count_algorithm,
+                   Count<std::string>::Builder().SetEpsilon(epsilon_).Build());
 
-    for (const auto& pair : carrots_per_animal_) {
-      if (pair.second > max) {
-        count_algorithm->AddEntry(pair.first);
-      }
+  for (const auto &pair : carrots_per_animal_) {
+    if (pair.second > max) {
+      count_algorithm->AddEntry(pair.first);
     }
-    return count_algorithm->PartialResult(privacy_budget);
+  }
+  return count_algorithm->PartialResult(privacy_budget);
 }
 
 - (nonnull OCDPStatusOr *)PrivateMax:(double)privacy_budget {
-    base::StatusOr<Output> result = [self _PrivateMax:privacy_budget];
-    OCDPStatusOr *status = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
-    return status;
+  base::StatusOr<Output> result = [self _PrivateMax:privacy_budget];
+  OCDPStatusOr *status = [[OCDPStatusOr alloc] initWithCppStatusOr:result];
+  return status;
 }
 
 - (base::StatusOr<Output>)_PrivateMax:(double)privacy_budget {
@@ -182,7 +184,7 @@ using namespace differential_privacy;
                        .SetLower(0)
                        .SetUpper(150)
                        .Build());
-  for (const auto& pair : carrots_per_animal_) {
+  for (const auto &pair : carrots_per_animal_) {
     max_algorithm->AddEntry(pair.second);
   }
   return max_algorithm->PartialResult(privacy_budget);

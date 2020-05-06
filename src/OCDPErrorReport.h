@@ -10,7 +10,7 @@
 
 @interface OCDPErrorReport : NSObject
 
-- (nullable OCDPBoundingReport *) bounding_report;
-- (nullable OCDPConfidenceInterval *) noise_confidence_interval;
+- (nullable OCDPBoundingReport *)bounding_report;
+- (nullable OCDPConfidenceInterval *)noise_confidence_interval;
 
 @end
