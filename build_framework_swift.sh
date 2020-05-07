@@ -7,4 +7,4 @@ if ! [ -x "$(command -v bazel)" ]; then
   export PATH=`pwd`/:$PATH
 fi
 echo "Building Framework with: `which bazel`"
-bazel build //src:OCDP --ios_multi_cpus=x86_64,arm64 --apple_bitcode=embedded --copt=-fembed-bitcode
+bazel build //src/SwiftDP:SwiftDP --ios_multi_cpus=x86_64,arm64 --apple_bitcode=embedded --copt=-fembed-bitcode

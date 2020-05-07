@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 echo "==========================================="
 echo "Running: bazel clean --expunge"
 echo "==========================================="
 bazel clean --expunge
 echo "==========================================="
-echo "Running: build_framework.sh"
-source build_framework.sh
+echo "Running: build_frameworks.sh"
+source build_frameworks.sh
 echo "Bazel Dependencies Fetched and Built"
 echo "==========================================="
 echo "Running: xcodegen"

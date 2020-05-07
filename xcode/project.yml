@@ -2,8 +2,8 @@ name: SwiftDP-App
 options:
   bundleIdPrefix: org.openmined.SwiftDP-App
 fileGroups:
-  - "../bazel-OCDP/external/com_google_absl"
-  - "../bazel-OCDP/external/google_differential_privacy"
+  - "../bazel-SwiftDP/external/com_google_absl"
+  - "../bazel-SwiftDP/external/google_differential_privacy"
 targets:
   SwiftDP-App:
     type: application
@@ -14,8 +14,11 @@ targets:
       - path: ../clang_format.sh
         name: clang-format
       - script: |
-          exec "${PROJECT_DIR}/../build_framework.sh"
-        name: Bazel Build Framework
+          exec "${PROJECT_DIR}/../build_framework_objc.sh"
+        name: Bazel Build Objective-C Framework
+      - script: |
+          exec "${PROJECT_DIR}/../build_framework_swift.sh"
+        name: Bazel Build Swift Framework
     settings:
       base:
         INFOPLIST_FILE: app/Info.plist
@@ -23,7 +26,7 @@ targets:
         MARKETING_VERSION: 1
         SWIFT_OBJC_BRIDGING_HEADER: app/OCDP-Bridging-Header.h
     dependencies:
-      - framework: ../bazel-bin/src/OCDP_archive-root/OCDP.framework
+      - framework: ../bazel-bin/src/OCDP/OCDP_archive-root/OCDP.framework
         embed: false
 
   Dummy:
@@ -32,7 +35,7 @@ targets:
     deploymentTarget: "13.0"
     sources: ["../src"]
     settings:
-      USER_HEADER_SEARCH_PATHS: "$PROJECT_DIR/../bazel-OCDP/external/**"
+      USER_HEADER_SEARCH_PATHS: "$PROJECT_DIR/../bazel-SwiftDP/external/**"
 
   SwiftDP-Unit-Tests:
     type: bundle.unit-test
@@ -44,7 +47,7 @@ targets:
     settings:
       base:
         SWIFT_OBJC_BRIDGING_HEADER: app/OCDP-Bridging-Header.h
-        FRAMEWORK_SEARCH_PATHS: ../bazel-bin/src/OCDP_archive-root
+        FRAMEWORK_SEARCH_PATHS: ../bazel-bin/src/OCDP/OCDP_archive-root
 
 schemes:
   SwiftDP-App:

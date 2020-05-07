@@ -23,9 +23,20 @@ Pod::Spec.new do |s|
   s.cocoapods_version = ">= 1.4.0"
   s.module_name = "SwiftDP"
 
-  s.script_phase = { :name => "Hello World", :script => "echo ocdp `pwd`", :execution_position => :before_compile }
+  s.prepare_command = <<-CMD
+    echo "here `pwd`"
+    mkdir SwiftDP.framework
+    mkdir OCDP.framework
+  CMD
 
-  s.preserve_paths = "**/*.*"
+  s.script_phases = [
+    { :name => "Bazel Build Frameworks", :script => "echo 'Building SwiftDP in `pwd`' && cd SwiftDP && source build_frameworks.sh", :execution_position => :before_compile },
+    { :name => "Copying Frameworks", :script => "cd SwiftDP && rm -rf SwiftDP.framework || true && rm -rf OCDP.framework || true && cp -R bazel-bin/src/SwiftDP/SwiftDP_archive-root/SwiftDP.framework ./SwiftDP.framework && cp -R bazel-bin/src/OCDP/OCDP_archive-root/OCDP.framework ./OCDP.framework", :execution_position => :before_compile },
+  ]
+
+  s.ios.vendored_frameworks = "SwiftDP.framework", "OCDP.framework"
+
+  s.preserve_paths = "**/*"
   s.source_files = "src/fake.swift"
 
   s.ios.deployment_target = "13.0"

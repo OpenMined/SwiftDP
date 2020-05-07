@@ -1,35 +1,25 @@
-workspace(name = "OCDP")
+workspace(name = "SwiftDP")
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+git_repository(
+    name = "build_bazel_rules_swift",
+    commit = "1f2201706d6b4dcf3675c4c5393fe42a30948859",
+    remote = "https://github.com/bazelbuild/rules_swift.git",
+)
+
+load(
+    "@build_bazel_rules_swift//swift:repositories.bzl",
+    "swift_rules_dependencies",
+)
+
+swift_rules_dependencies()
 
 git_repository(
     name = "build_bazel_rules_apple",
-    commit = "5131f3d46794bf227d296c82f30c2499c9de3c5b",
+    commit = "313eeb838497e230f01a7367ae4555aaf0cac62e",
     remote = "https://github.com/bazelbuild/rules_apple.git",
 )
-
-git_repository(
-    name = "google_differential_privacy",
-    commit = "14f26fb91570cce384c2715d3adcaa4e92eec605",
-    remote = "https://github.com/google/differential-privacy",
-)
-
-http_archive(
-    name = "rules_proto",
-    sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
-    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
-        "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
-    ],
-)
-
-load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
-
-rules_proto_dependencies()
-
-rules_proto_toolchains()
 
 load(
     "@build_bazel_rules_apple//apple:repositories.bzl",
@@ -37,6 +27,19 @@ load(
 )
 
 apple_rules_dependencies()
+
+load(
+    "@com_google_protobuf//:protobuf_deps.bzl",
+    "protobuf_deps",
+)
+
+protobuf_deps()
+
+git_repository(
+    name = "google_differential_privacy",
+    commit = "14f26fb91570cce384c2715d3adcaa4e92eec605",
+    remote = "https://github.com/google/differential-privacy",
+)
 
 load("@google_differential_privacy//:differential_privacy_deps.bzl", "differential_privacy_deps")
 
