@@ -3,16 +3,16 @@ load("@build_bazel_rules_apple//apple:ios.bzl", "ios_static_framework")
 load("@build_bazel_rules_apple//apple:versioning.bzl", "apple_bundle_version")
 
 cc_proto_library(
-    name = "my-proto",
+    name = "dp-proto",
     deps = ["@google_differential_privacy//differential_privacy/proto:data-proto"],
 )
 
 cc_library(
-    name = "my-proto-cc",
+    name = "dp-proto-cc",
     hdrs = [],
     copts = ["-Wno-sign-compare"],
     deps = [
-        ":my-proto",
+        ":dp-proto",
     ],
 )
 
@@ -47,7 +47,7 @@ objc_library(
     ],
     enable_modules = True,
     deps = [
-        ":my-proto-cc",
+        ":dp-proto-cc",
         "@google_differential_privacy//differential_privacy/algorithms:bounded-sum",
         "@google_differential_privacy//differential_privacy/algorithms:bounded-mean",
         "@google_differential_privacy//differential_privacy/algorithms:count",
@@ -70,7 +70,7 @@ apple_bundle_version(
 # TODO figure out optimal minimum target version and supported architectures
 # iPhone 5C is the oldest non arm64 device with a max iOS version of 12
 ios_static_framework(
-    name = "SwiftDP",
+    name = "OCDP",
     hdrs = [
         "OCDPCarrotReporter.h",
         "OCDPStatus.h",
@@ -80,13 +80,13 @@ ios_static_framework(
         "OCDPBoundingReport.h",
         "OCDPConfidenceInterval.h",
     ],
-    bundle_name = "SwiftDP",
+    bundle_name = "OCDP",
     families = [
         "iphone",
         "ipad",
     ],
     minimum_os_version = "13.0",
-    umbrella_header = "SwiftDP.h",
+    umbrella_header = "OCDP.h",
     version = ":framework-version",
     deps = [":dp"],
 )
