@@ -1,10 +1,11 @@
 //
 //  OCDPCarrotReporter.h
-//  SwiftDP-Test-Framework
+//  SwiftDP-App
 //
 //  Created by Madhava Jay on 20/4/20.
 //
 
+#import "OCDPStatusOr.h"
 #import <Foundation/Foundation.h>
 
 @interface OCDPCarrotReporter : NSObject
@@ -32,6 +33,10 @@
 // they should answer any more of Farmer Fred's questions.
 - (double)PrivacyBudget;
 
-- (int)PrivateSum:(double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateSum:(double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateMean:(double)privacy_budget;
+- (nonnull OCDPStatusOr *)PrivateCountAbove:(double)privacy_budget
+                                      limit:(int)max;
+- (nonnull OCDPStatusOr *)PrivateMax:(double)privacy_budget;
 
 @end

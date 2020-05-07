@@ -1,11 +1,11 @@
-name: SwiftDP-Test-Framework
+name: SwiftDP-App
 options:
-  bundleIdPrefix: org.openmined.SwiftDP-Test-Framework
+  bundleIdPrefix: org.openmined.SwiftDP-App
 fileGroups:
   - "../bazel-SwiftDP/external/com_google_absl"
   - "../bazel-SwiftDP/external/google_differential_privacy"
 targets:
-  SwiftDP-Test-Framework:
+  SwiftDP-App:
     type: application
     platform: iOS
     deploymentTarget: "13.0"
@@ -21,10 +21,11 @@ targets:
         INFOPLIST_FILE: app/Info.plist
         OTHER_LDFLAGS: -lc++
         MARKETING_VERSION: 1
-        SWIFT_OBJC_BRIDGING_HEADER: app/SwiftDP-Test-Framework-Bridging-Header.h
+        SWIFT_OBJC_BRIDGING_HEADER: app/SwiftDP-App-Bridging-Header.h
     dependencies:
       - framework: ../bazel-bin/src/SwiftDP_archive-root/SwiftDP.framework
         embed: false
+
   Dummy:
     type: framework
     platform: iOS
@@ -33,8 +34,26 @@ targets:
     settings:
       USER_HEADER_SEARCH_PATHS: "$PROJECT_DIR/../bazel-SwiftDP/external/**"
 
+  SwiftDP-Unit-Tests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources: ["tests"]
+    dependencies:
+      - target: SwiftDP-App
+    settings:
+      base:
+        SWIFT_OBJC_BRIDGING_HEADER: app/SwiftDP-App-Bridging-Header.h
+        FRAMEWORK_SEARCH_PATHS: ../bazel-bin/src/SwiftDP_archive-root
+
 schemes:
-  SwiftDP-Test-Framework:
+  SwiftDP-App:
     build:
       targets:
-        "SwiftDP-Test-Framework": SwiftDP-Test-Framework
+        "SwiftDP-App": SwiftDP-App
+    test:
+      gatherCoverageData: true
+      targets:
+        - name: SwiftDP-Unit-Tests
+          parallelizable: true
+          randomExecutionOrder: true

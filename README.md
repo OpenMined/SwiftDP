@@ -1,3 +1,6 @@
+![Tests](https://github.com/OpenMined/SwiftDP/workflows/CI/badge.svg)
+[![Chat on Slack](https://img.shields.io/badge/chat-on%20slack-7A5979.svg)](https://openmined.slack.com/messages/lib_swift_dp)
+
 # SwiftDP
 
 Swift wrapper for Google's Differential Privacy Project via an Objective-C++ bridge.
@@ -6,13 +9,14 @@ Swift wrapper for Google's Differential Privacy Project via an Objective-C++ bri
 
 - [x] Bazel Build
 - [x] C++ -> Objective-C -> Swift
-- [x] Development Xcode Project
+- [x] Xcodegen Project
 - [x] clang-format
-- [ ] Carrot Hello World
+- [x] fastlane
+- [x] Carrot Hello World
+- [x] GitHub CI Unit Tests
 - [ ] DP Framework
-- [ ] CI Builds
-- [ ] SwiftPM Support
 - [ ] Cocopods Support
+- [ ] SwiftPM Support
 - [ ] Carthage Support
 - [ ] Native iOS Example
 - [ ] React Native Example
@@ -74,7 +78,7 @@ $ cd xcode
 $ xcodegen generate
 ```
 
-Open SwiftDP-Test-Framework.xcodeproj and add your Team Signing Identity and hit run.
+Open SwiftDP-App.xcodeproj and add your Team Signing Identity and hit run.
 
 ## Useful Commands
 
