@@ -37,7 +37,7 @@ jobs:
           which bazel
           bazel --version
           set -o pipefail
-          source ./build_framework.sh
+          source ./build_frameworks.sh
 
   build:
     name: build iOS app
@@ -64,7 +64,7 @@ jobs:
           which bazel
           bazel --version
           set -o pipefail
-          source ./build_framework.sh
+          source ./build_frameworks.sh
           cd xcode
           xcodegen generate
           bundle exec fastlane build
@@ -97,7 +97,7 @@ jobs:
           which bazel
           bazel --version
           set -o pipefail
-          source ./build_framework.sh
+          source ./build_frameworks.sh
           cd xcode
           xcodegen generate
           bundle exec fastlane tests

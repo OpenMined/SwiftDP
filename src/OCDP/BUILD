@@ -1,26 +1,29 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_proto_library", "objc_library")
-load("@build_bazel_rules_apple//apple:ios.bzl", "ios_static_framework")
 load("@build_bazel_rules_apple//apple:versioning.bzl", "apple_bundle_version")
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_static_framework")
 
+# Build the proto file
 cc_proto_library(
-    name = "my-proto",
+    name = "dp-proto",
     deps = ["@google_differential_privacy//differential_privacy/proto:data-proto"],
 )
 
+# Wrap the proto file in a c++ library so we can use it as a dependency
 cc_library(
-    name = "my-proto-cc",
+    name = "dp-proto-cc",
     hdrs = [],
     copts = ["-Wno-sign-compare"],
     deps = [
-        ":my-proto",
+        ":dp-proto",
     ],
 )
 
 # Build the Objective-C Library which bridges the C++
 objc_library(
-    name = "dp",
+    name = "dp-objc",
+    module_name = "OCDP", # this is the name space for @import OCDP
     srcs = [
-        "DPUtil.mm",
+        "OCDPUtil.mm",
         "OCDPCarrotReporter.mm",
         "OCDPStatus.mm",
         "OCDPStatusOr.mm",
@@ -30,7 +33,7 @@ objc_library(
         "OCDPConfidenceInterval.mm",
     ],
     hdrs = [
-        "DPUtil.mm",  # .mm's are needed in hdrs to import into other .mm files
+        "OCDPUtil.mm",  # .mm's are needed in hdrs to import into other .mm files
         "OCDPStatus.mm", 
         "OCDPStatusOr.mm",
         "OCDPOutput.mm",
@@ -45,9 +48,10 @@ objc_library(
         "OCDPBoundingReport.h",
         "OCDPConfidenceInterval.h",
     ],
+    alwayslink = True,
     enable_modules = True,
     deps = [
-        ":my-proto-cc",
+        ":dp-proto-cc",
         "@google_differential_privacy//differential_privacy/algorithms:bounded-sum",
         "@google_differential_privacy//differential_privacy/algorithms:bounded-mean",
         "@google_differential_privacy//differential_privacy/algorithms:count",
@@ -57,8 +61,10 @@ objc_library(
         "@google_differential_privacy//differential_privacy/base:statusor",
         "@google_differential_privacy//differential_privacy/base:canonical_errors"
     ],
+    visibility = ["//visibility:public"]
 )
 
+# FRAMEWORKS
 # Define the version of the framework
 apple_bundle_version(
     name = "framework-version",
@@ -66,11 +72,10 @@ apple_bundle_version(
     short_version_string = "0.1",
 )
 
-# Build an iOS Static Framework .a file
-# TODO figure out optimal minimum target version and supported architectures
-# iPhone 5C is the oldest non arm64 device with a max iOS version of 12
+# Objective-C Only Framework
 ios_static_framework(
-    name = "SwiftDP",
+    name = "OCDP",
+    bundle_name = "OCDP",
     hdrs = [
         "OCDPCarrotReporter.h",
         "OCDPStatus.h",
@@ -80,13 +85,13 @@ ios_static_framework(
         "OCDPBoundingReport.h",
         "OCDPConfidenceInterval.h",
     ],
-    bundle_name = "SwiftDP",
     families = [
         "iphone",
         "ipad",
     ],
     minimum_os_version = "13.0",
-    umbrella_header = "SwiftDP.h",
+    umbrella_header = "OCDP.h",
     version = ":framework-version",
-    deps = [":dp"],
+    deps = [":dp-objc"],
+    visibility = ["//visibility:public"]
 )

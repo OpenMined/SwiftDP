@@ -6,8 +6,8 @@
 //
 
 #import "OCDPOutput.h"
-#import "DPUtil.mm"
 #import "OCDPErrorReport.mm"
+#import "OCDPUtil.mm"
 #import <Foundation/Foundation.h>
 
 #include "differential_privacy/proto/data.pb.h"

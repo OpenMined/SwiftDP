@@ -6,9 +6,9 @@
 //
 
 #import "OCDPCarrotReporter.h"
-#import "DPUtil.mm"
 #import "OCDPStatus.mm"
 #import "OCDPStatusOr.mm"
+#import "OCDPUtil.mm"
 #import <Foundation/Foundation.h>
 
 #import "differential_privacy/algorithms/bounded-mean.h"

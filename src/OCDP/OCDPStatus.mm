@@ -1,5 +1,5 @@
 #import "OCDPStatus.h"
-#import "DPUtil.mm"
+#import "OCDPUtil.mm"
 #import "differential_privacy/base/status.h"
 
 using namespace differential_privacy;

@@ -14,16 +14,19 @@ targets:
       - path: ../clang_format.sh
         name: clang-format
       - script: |
-          exec "${PROJECT_DIR}/../build_framework.sh"
-        name: Bazel Build Framework
+          exec "${PROJECT_DIR}/../build_framework_objc.sh"
+        name: Bazel Build Objective-C Framework
+      - script: |
+          exec "${PROJECT_DIR}/../build_framework_swift.sh"
+        name: Bazel Build Swift Framework
     settings:
       base:
         INFOPLIST_FILE: app/Info.plist
         OTHER_LDFLAGS: -lc++
         MARKETING_VERSION: 1
-        SWIFT_OBJC_BRIDGING_HEADER: app/SwiftDP-App-Bridging-Header.h
+        SWIFT_OBJC_BRIDGING_HEADER: app/OCDP-Bridging-Header.h
     dependencies:
-      - framework: ../bazel-bin/src/SwiftDP_archive-root/SwiftDP.framework
+      - framework: ../bazel-bin/src/OCDP/OCDP_archive-root/OCDP.framework
         embed: false
 
   Dummy:
@@ -43,8 +46,8 @@ targets:
       - target: SwiftDP-App
     settings:
       base:
-        SWIFT_OBJC_BRIDGING_HEADER: app/SwiftDP-App-Bridging-Header.h
-        FRAMEWORK_SEARCH_PATHS: ../bazel-bin/src/SwiftDP_archive-root
+        SWIFT_OBJC_BRIDGING_HEADER: app/OCDP-Bridging-Header.h
+        FRAMEWORK_SEARCH_PATHS: ../bazel-bin/src/OCDP/OCDP_archive-root
 
 schemes:
   SwiftDP-App:

@@ -14,10 +14,11 @@ Swift wrapper for Google's Differential Privacy Project via an Objective-C++ bri
 - [x] fastlane
 - [x] Carrot Hello World
 - [x] GitHub CI Unit Tests
-- [ ] DP Framework
+- [x] OCDP Objective-C Wrapper Framework
+- [ ] SwiftDP Wrapper Framework
 - [ ] Cocopods Support
-- [ ] SwiftPM Support
 - [ ] Carthage Support
+- [ ] SwiftPM Support
 - [ ] Native iOS Example
 - [ ] React Native Example
 - [ ] Flutter Example
